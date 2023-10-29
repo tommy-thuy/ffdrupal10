@@ -1,0 +1,74 @@
+# Provides integration with the component_styleguide module.
+
+# Settings used in cases including breakpoint application.
+settings:
+  # Breakpoints supported, from smallest to largest.
+  breakpoints:
+    - mobile
+    - tablet
+    - desktop
+    - widescreen
+    - fullhd
+  # The pattern that breakpoint-supporting values take, where value is the
+  # original value and breakpoint is the name of the breakpoint.
+  breakpoint_pattern: 'value-breakpoint'
+  # A sample value of a variable that supports multiple breakpoints.
+  breakpoint_pattern_example: 'is-3-desktop'
+  # A class to wrap the elements that should be styled as content, such as a
+  # <details> element that presents component information.
+  content_class: content
+# Variables to add to all components
+global_variables:
+  background_color:
+    label: 'Background color'
+    description: 'Set background to one of a range of colors'
+    nullable: true
+    type: string_attribute_provider
+    options:
+      has-background-white: white
+      has-background-black: black
+      has-background-light: light
+      has-background-dark: dark
+      has-background-primary: primary
+      has-background-info: info
+      has-background-link: link
+      has-background-success: success
+      has-background-warning: warning
+      has-background-danger: danger
+      has-background-black-bis: black-bis
+      has-background-black-ter: black-ter
+      has-background-grey-darker: grey-darker
+      has-background-grey-dark: grey-dark
+      has-background-grey: grey
+      has-background-grey-light: grey-light
+      has-background-grey-lighter: grey-lighter
+      has-background-white-ter: white-ter
+      has-background-white-bis: white-bis
+      has-background-primary-light: primary-light
+      has-background-link-light: link-light
+      has-background-info-light: info-light
+      has-background-success-light: success-light
+      has-background-warning-light: warning-light
+      has-background-danger-light: danger-light
+      has-background-primary-dark: primary-dark
+      has-background-link-dark: link-dark
+      has-background-info-dark: info-dark
+      has-background-success-dark: success-dark
+      has-background-warning-dark: warning-dark
+      has-background-danger-dark: danger-dark
+    provides_class: true
+    documentation_url: https://bulma.io/documentation/helpers/color-helpers/#background-color
+# The components provided by this module.
+components:
+  # columns
+  bulma_columns:
+    label: 'Columns'
+    description: 'The power of Flexbox in a simple interface'
+    styleguide_template: '@ffw_site03/columns/columns/_example-columns-stacked.html.twig'
+    component_template: '@ffw_site03/columns/columns/columns.html.twig'
+    variables_yml: components/columns/columns/columns.variables.yml
+    group: 'Bulma - Columns'
+    documentation_url: https://bulma.io/documentation/columns
+    html_class: 'columns'
+    takes_ui: false
+ 

@@ -1,0 +1,48 @@
+<?php
+
+
+use Drupal\Core\Url;
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\taxonomy\Entity\Term;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\group\Entity\GroupContentType;
+use Drupal\user\Entity\User;
+use Drupal\image\Entity\ImageStyle;
+use Drupal\paragraphs\Entity\Paragraph;
+
+/**
+ * Implements hook_page_attachments().
+ *
+ * Load all meta tags for this page.
+ */
+function ffw_site03_page_attachments(array &$attachments) {
+ 
+  if ( \Drupal::service('router.admin_context')->isAdminRoute() ) {
+    return;
+  }
+  if (\Drupal::service('path.matcher')->isFrontPage()) {
+    $tag = [];  
+    $node_storage = \Drupal::entityQuery('node')
+        ->accessCheck(FALSE)
+        ->condition('type', 'landingpage') 
+        ->condition('status', '1')
+        ->execute();  
+      $nodes_landingpage =  \Drupal\node\Entity\Node::loadMultiple($node_storage);
+  
+    foreach ($nodes_landingpage as $key_landing => $id) {    
+      $node = \Drupal\node\Entity\Node::load($id->id());    
+      $tags = $node->get('field_tags')->referencedEntities();    
+      foreach ($tags as $key => $item) {
+        $tag[$key_landing][$key] = [
+          'nid' => $id->id(),
+          'tid' => $item->id(),
+          'name' => $item->label()
+        ];
+      }    
+    }
+  
+    $attachments['#attached']['drupalSettings']['dataLayer']['tag'] = json_encode($tag);    
+    $attachments['#attached']['library'][] =  'ffw_site03/datalayer-custom-tag';
+  }
+}

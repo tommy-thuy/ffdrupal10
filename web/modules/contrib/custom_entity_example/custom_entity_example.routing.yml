@@ -1,0 +1,7 @@
+custom_entity_example.settings.clone_form:
+  path: '/admin/content/custom-entity-example-types/clone-form'
+  defaults:
+    _form: '\Drupal\custom_entity_example\Form\CustomEntityExampleCloneForm'
+    _title: 'Clone form'
+  requirements:
+    _permission: 'administer custom_entity_example'

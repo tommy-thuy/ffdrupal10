@@ -1,0 +1,54 @@
+<?php
+
+/**
+ * @file
+ * GraphQL Compose users module file.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Cache\RefinableCacheableDependencyInterface;
+use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_graphql_compose_entity_base_fields_alter().
+ */
+function graphql_compose_users_graphql_compose_entity_base_fields_alter(array &$fields, string $entity_type_id): void {
+  if ($entity_type_id === 'node') {
+    $fields['uid'] = [
+      'type' => 'entity_owner',
+      'name_sdl' => 'author',
+      'required' => FALSE,
+      'description' => t('The author of this content.'),
+    ];
+  }
+}
+
+/**
+ * Implements hook_graphql_compose_field_results_alter().
+ *
+ * Hide uid field if node type doesn't have display submitted enabled.
+ */
+function graphql_compose_users_graphql_compose_field_results_alter(array &$results, array $context, RefinableCacheableDependencyInterface $metadata) {
+  $field_list = $context['value'] ?? NULL;
+  if (!$field_list instanceof FieldItemListInterface) {
+    return;
+  }
+
+  $entity = $field_list->getEntity();
+  $field = $field_list->getFieldDefinition();
+
+  if (!$entity instanceof NodeInterface) {
+    return;
+  }
+
+  if ($field->getName() === 'uid') {
+    /** @var \Drupal\node\NodeTypeInterface $entity_type */
+    $entity_type = $entity->type->entity;
+
+    if (!$entity_type->displaySubmitted()) {
+      $results = [];
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{#
+/**
+ * @file
+ *
+ * Default template for custom entity example item.
+ *
+ * Available variables:
+ * - attributes: HTML attributes for the wrapper.
+ * - custom_entity_example: The rendered custom_entity_example fields.
+ *   Use 'custom_entity_example' to print them all, or print a subset such as
+ *   'custom_entity_example.name'. Use the following code to exclude the
+ *   printing of a given field:
+ *   @code
+ *   {{ custom_entity_example|without('name') }}
+ *   @endcode
+ * - custom_entity_example_entity: The custom_entity_example entity.
+ * - custom_entity_example_url: The custom_entity_example URL.
+ *
+ * @ingroup themeable
+ */
+#}
+<article{{ attributes }}>
+  {{ custom_entity_example }}
+</article>

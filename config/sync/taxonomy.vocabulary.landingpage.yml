@@ -1,0 +1,8 @@
+uuid: ab18d12a-7106-4463-af97-4b6d977f1e0f
+langcode: en
+status: true
+dependencies: {  }
+name: 'Landing page'
+vid: landingpage
+description: 'Landing page'
+weight: 0

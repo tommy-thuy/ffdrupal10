@@ -1,0 +1,34 @@
+<?php
+
+/**
+ * @file
+ * Module install file.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function custom_elements_install() {
+  // Make sure our module comes after layout_builder.
+  // @see custom_elements_module_implements_alter().
+  module_set_weight('custom_elements', 10);
+}
+
+/**
+ * Set module weight.
+ */
+function custom_elements_update_8201() {
+  // Make sure our module comes after layout_builder.
+  // @see custom_elements_module_implements_alter().
+  module_set_weight('custom_elements', 10);
+}
+
+/**
+ * Add new config settings.
+ */
+function custom_elements_update_8202() {
+  \Drupal::configFactory()
+    ->getEditable('custom_elements.settings')
+    ->setData(['markup_style' => 'web_components'])
+    ->save();
+}

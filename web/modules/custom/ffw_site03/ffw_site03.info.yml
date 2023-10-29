@@ -1,0 +1,6 @@
+name: 'FFW Site-specific features/Site 3'
+type: module
+description: 'Site 3 extends the custom data layer module by adding the page tags to the data layer object.'
+core_version_requirement: ^8.8 || ^9 || ^10
+package: 'FFW'
+dependencies: {}

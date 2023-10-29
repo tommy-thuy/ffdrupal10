@@ -1,0 +1,21 @@
+{
+  "name": "drupal/http_request_mock",
+  "type": "drupal-module",
+  "description": "Used in tests to mock HTTP requests.",
+  "homepage": "https://www.drupal.org/project/http_request_mock",
+  "authors": [
+    {
+      "name": "Claudiu Cristea",
+      "role": "maintainer",
+      "email": "clau.cristea@gmail.com"
+    }
+  ],
+  "keywords": [
+    "Drupal",
+    "HTTP",
+    "client",
+    "mock",
+    "test",
+    "Guzzle"
+  ]
+}

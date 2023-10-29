@@ -1,0 +1,48 @@
+uuid: c10e55d0-8855-4211-8a8b-c42b392be245
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.landingpage.body
+    - field.field.node.landingpage.field_category
+    - field.field.node.landingpage.field_components
+    - field.field.node.landingpage.field_metatags
+    - field.field.node.landingpage.field_tags
+    - field.field.node.landingpage.layout_builder__layout
+    - node.type.landingpage
+  module:
+    - text
+    - user
+id: node.landingpage.teaser
+targetEntityType: node
+bundle: landingpage
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_tags:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_category: true
+  field_components: true
+  field_metatags: true
+  langcode: true
+  layout_builder__layout: true

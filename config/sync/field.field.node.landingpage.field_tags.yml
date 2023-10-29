@@ -1,0 +1,29 @@
+uuid: 6bf51a8e-7c2d-494e-be93-6526001d9e99
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tags
+    - node.type.landingpage
+    - taxonomy.vocabulary.tags
+id: node.landingpage.field_tags
+field_name: field_tags
+entity_type: node
+bundle: landingpage
+label: Tags
+description: 'Enter a comma-separated list. For example: Vegetarian, Chocolate brownies, Appetizers'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      tags: tags
+    sort:
+      field: _none
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

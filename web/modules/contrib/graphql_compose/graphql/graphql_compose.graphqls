@@ -1,0 +1,31 @@
+################################################################################
+# The base GraphQL Compose schema                                              #
+################################################################################
+
+# The actual GraphQL schema
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+"""
+The schema's entry-point for queries.
+
+This acts as the public, top-level API from which all queries must start.
+"""
+type Query {
+  """
+  Schema information.
+  """
+  info: SchemaInformation!
+}
+
+"""
+A GraphQL mutation is a request that changes data on the server.
+"""
+type Mutation {
+  """
+  Placeholder field to enable schema mutation extension.
+  """
+  _: Boolean!
+}

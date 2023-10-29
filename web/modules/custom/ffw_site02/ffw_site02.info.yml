@@ -1,0 +1,6 @@
+name: 'FFW Site-specific features/Site 2'
+type: module
+description: 'Site 2 introduces a custom component called "Split view" with the following fields: Title/Teaser/Link/Image'
+core_version_requirement: ^8.8 || ^9 || ^10
+package: 'FFW'
+dependencies: {}

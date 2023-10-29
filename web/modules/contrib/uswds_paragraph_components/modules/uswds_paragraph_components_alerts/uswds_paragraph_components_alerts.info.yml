@@ -1,0 +1,13 @@
+name: USWDS Paragraph Components Alerts
+type: module
+description: Alerts using USWDS markup
+core_version_requirement: ^9 || ^10
+package: Paragraphs
+dependencies:
+  - paragraphs:paragraphs
+  - uswds_paragraph_components:uswds_paragraph_components
+
+# Information added by Drupal.org packaging script on 2023-10-13
+version: '3.0.0'
+project: 'uswds_paragraph_components'
+datestamp: 1697213602

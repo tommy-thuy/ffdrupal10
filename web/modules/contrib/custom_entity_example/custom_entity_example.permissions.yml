@@ -1,0 +1,4 @@
+'administer custom_entity_example_type':
+  title: 'Administer custom_entity_example types'
+  description: 'Maintain the types of custom entity example types available and the fields that are associated with those types.'
+  restrict access: true

@@ -1,0 +1,6 @@
+name: 'FFW Datalayer Custom frontend'
+type: module
+description: 'Create a custom module that pushes a data layer object to the front end that contains the following data: Page title/Page category/Components: []'
+core_version_requirement: ^8.8 || ^9 || ^10
+package: 'FFW'
+dependencies: {}

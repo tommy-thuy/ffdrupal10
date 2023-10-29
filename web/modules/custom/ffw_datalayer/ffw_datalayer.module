@@ -1,0 +1,94 @@
+<?php
+
+
+use Drupal\Core\Url;
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\taxonomy\Entity\Term;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\group\Entity\GroupContentType;
+use Drupal\user\Entity\User;
+use Drupal\image\Entity\ImageStyle;
+use Drupal\paragraphs\Entity\Paragraph;
+
+/**
+ * Implements hook_page_attachments().
+ *
+ * Load all meta tags for this page.
+ */
+function ffw_datalayer_page_attachments(array &$attachments) {
+ 
+  if ( \Drupal::service('router.admin_context')->isAdminRoute() ) {
+    return;
+  }
+  if (\Drupal::service('path.matcher')->isFrontPage()) {
+
+    $landingpage = [];
+    $cat = [];   
+    $components = [];
+    
+    $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+    $entity_ids = $node_storage->getQuery()
+      ->accessCheck(FALSE)
+      ->condition('type', 'landingpage')
+      ->condition('status', '1')
+      ->execute();
+    
+    foreach($entity_ids as $key_ids => $id) {
+      $node = \Drupal\node\Entity\Node::load($id); 
+      $paragraph = $node->get('field_components')->referencedEntities();     
+      $categories = $node->get('field_category')->referencedEntities();
+      $tags = $node->get('field_tags')->referencedEntities();
+      $image = [];
+    
+      $cta = [];
+      foreach ($paragraph as $key_para => $element) {
+        if ($element instanceof Paragraph) {
+          $ctas = [];
+          $call_to_action = $element->field_call_to_action->getValue();
+          foreach ($call_to_action as $key => $item) {          
+            $para_cta = \Drupal\paragraphs\Entity\Paragraph::load( $item['target_id'] );
+            $link = $para_cta->field_link->getValue(); 
+            $cta[$key_para][$key]= [
+              'links' => [
+                'uri' => $link[0]['uri'],
+                'title' => $link[0]['title'],
+              ],
+              'teaser' => $para_cta->field_teaser->value,
+              'title' => $para_cta->field_title->value,
+              'nid' => $id,
+            ];   
+          }
+          $ctas[$key_para] = [
+            'body' => $element->get('field_body')->value,
+            'image' => [
+              'url' => ImageStyle::load('large')->buildUrl($element->field_image->entity->getFileUri()),
+              'title' => $element->field_image->title,
+              'alt' => $element->field_image->alt,
+            ],
+            'paragraph_item' => $cta
+          ] ;
+        }      
+      }
+    
+      foreach ($categories as $key => $item) {
+        $cat[] = [
+          'tid' => $item->id(),
+          'name' => $item->label()
+        ];
+      }
+      
+      $landingpage[] = [
+        'nid' => $id,
+        'title' => $node->title->value,
+        'category' => $cat,       
+        'components' => $ctas,
+      ];
+    
+      $node_storage->resetCache([$id]);
+    }
+  
+    $attachments['#attached']['drupalSettings']['dataLayer']['landingpage'] = json_encode($landingpage);    
+    $attachments['#attached']['library'][] =  'ffw_datalayer/datalayer-custom-frontend';
+  }
+}

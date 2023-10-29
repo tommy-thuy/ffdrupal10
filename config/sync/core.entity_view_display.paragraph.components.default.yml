@@ -1,0 +1,46 @@
+uuid: c86fc5cc-811a-4392-b04a-348777a72262
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.components.field_body
+    - field.field.paragraph.components.field_call_to_action
+    - field.field.paragraph.components.field_image
+    - paragraphs.paragraphs_type.components
+  module:
+    - entity_reference_revisions
+    - image
+    - text
+id: paragraph.components.default
+targetEntityType: paragraph
+bundle: components
+mode: default
+content:
+  field_body:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_call_to_action:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_image:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden: {  }

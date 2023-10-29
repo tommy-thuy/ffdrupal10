@@ -1,0 +1,54 @@
+gin_lb:
+  version: VERSION
+  css:
+    theme:
+      dist/css/gin_lb.css: { minified: true }
+  dependencies:
+    - core/jquery
+    - core/once
+    - core/drupal
+    - core/drupalSettings
+
+gin_lb_10:
+  version: VERSION
+  css:
+    theme:
+      dist/css/gin_lb_10.css: { minified: true }
+  dependencies:
+    - gin_lb/gin_lb
+
+gin_lb_init:
+  version: VERSION
+  js:
+    dist/js/gin_lb_js.js: { minified: true, preprocess: false }
+  dependencies:
+    - core/jquery
+    - core/once
+    - core/drupal
+    - core/drupalSettings
+    - gin/sidebar
+
+gin_lb_toastify:
+  version: VERSION
+  js:
+    dist/js/gin_lb_toastify.js: { minified: true }
+  dependencies:
+    - core/jquery
+    - core/once
+    - core/drupal
+    - core/drupalSettings
+
+toastify_cdn:
+  version: VERSION
+  js:
+    //cdn.jsdelivr.net/npm/toastify-js: { type: external }
+  css:
+    theme:
+      //cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css: { type: external }
+
+toastify_composer:
+  css:
+    component:
+      /libraries/toastify-js/src/toastify.css: {}
+  js:
+    /libraries/toastify-js/src/toastify.js: {}

@@ -1,0 +1,7 @@
+datalayer-custom-frontend:
+  version: VERSION
+  js:
+    js/datalayer-custom-frontend.js: {weight: 0}
+  dependencies:
+    - core/jquery
+    - core/jquery.once

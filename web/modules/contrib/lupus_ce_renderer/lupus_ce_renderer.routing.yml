@@ -1,0 +1,9 @@
+## A simple example route only showing for admins.
+lupus_ce_renderer.node:
+  path: '/node'
+  defaults:
+    _controller: '\Drupal\lupus_ce_renderer\Controller\CustomElementsController::node'
+    _title: 'Welcome'
+  requirements:
+    _format: 'custom_elements'
+    _permission: 'access administration pages'

@@ -1,0 +1,10 @@
+services:
+  http_request_mock.client_middleware:
+    class: Drupal\http_request_mock\HttpRequestMockMiddleware
+    arguments: ['@plugin.manager.service_mock']
+    tags:
+      - { name: http_client_middleware }
+  plugin.manager.service_mock:
+    class: Drupal\http_request_mock\ServiceMockPluginManager
+    parent: default_plugin_manager
+    arguments: ['@state']

@@ -1,0 +1,38 @@
+{%
+  set columns = [
+    {
+      size: 'is-one-quarter',
+      content: 'My column content',
+    },
+    {
+      size: 'is-one-quarter',
+      templates: [
+        {
+          template: '@bulma_components/elements/title/_example-title.html.twig',
+          variables: _context
+        },
+        {
+          template: '@bulma_components/elements/title/_example-subtitle.html.twig',
+          variables: _context
+        },
+      ]
+    },
+    {
+      size: 'is-half',
+      templates: [
+        {
+          template: '@bulma_components/components/card/_example-card-with-image.html.twig',
+          variables: _context
+        },
+      ]
+    },
+  ]
+%}
+{% embed '@bulma_components/columns/columns/columns.html.twig' with
+  {
+    is_multiline: true,
+    is_mobile: true,
+    columns: columns,
+  } only
+%}
+{% endembed %}

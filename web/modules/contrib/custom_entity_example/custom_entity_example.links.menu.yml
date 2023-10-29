@@ -1,0 +1,18 @@
+entity.custom_entity_example.collection:
+  title: 'Custom Entity Example items'
+  route_name: 'entity.custom_entity_example.collection'
+  parent: 'system.admin_content'
+  description: 'Manage your custom entity example items.'
+  weight: 50
+
+entity.custom_entity_example_type.collection:
+  title: 'Custom Entity Example types'
+  route_name: 'entity.custom_entity_example_type.collection'
+  parent: 'system.admin_structure'
+  description: 'Manage fields, form and display settings for your custom entity example types.'
+  weight: 50
+
+custom_entity_example.grouped_entity_links:
+  class: Drupal\custom_entity_example\Plugin\Menu\GroupedEntityLinks
+  deriver: Drupal\custom_entity_example\Plugin\Derivative\GroupedEntityLinksDeriver
+  menu_name: custom_entity_example

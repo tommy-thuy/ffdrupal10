@@ -1,0 +1,11 @@
+name: JSON Log
+type: module
+description: Logs watchdog events JSON-formatted to file.
+core_version_requirement: ^10
+package: Administration
+configure: system.logging_settings
+
+# Information added by Drupal.org packaging script on 2023-10-13
+version: '4.0.0'
+project: 'jsonlog'
+datestamp: 1697209438

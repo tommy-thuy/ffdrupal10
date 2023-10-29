@@ -1,0 +1,14 @@
+name: Paragraphs Sets
+type: module
+description: 'Allow adding a set of pre-configured paragraphs.'
+core_version_requirement: ^9.3 || ^10
+configure: entity.paragraphs_set.collection
+package: Paragraphs
+
+dependencies:
+  - paragraphs:paragraphs
+
+# Information added by Drupal.org packaging script on 2023-09-25
+version: '3.0.1'
+project: 'paragraphs_sets'
+datestamp: 1695673812

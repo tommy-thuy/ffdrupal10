@@ -1,0 +1,15 @@
+uuid: 4f2302e3-b2a6-4648-a9a2-0601356d73d1
+langcode: en
+status: true
+dependencies: {  }
+id: development
+label: Development
+description: ''
+weight: 0
+stackable: false
+storage: folder
+folder: ./config/development_split
+module: {  }
+theme: {  }
+complete_list: {  }
+partial_list: {  }

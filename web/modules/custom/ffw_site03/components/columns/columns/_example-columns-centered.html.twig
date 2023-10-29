@@ -1,0 +1,20 @@
+{%
+  set columns = [
+    {
+      size: 'is-half',
+      templates: [
+        {
+          template: '@bulma_components/components/card/_example-card-with-image.html.twig',
+          variables: _context
+        },
+      ]
+    },
+  ]
+%}
+{% embed '@bulma_components/columns/columns/columns.html.twig' with
+  {
+    is_centered: true,
+    columns: columns,
+  } only
+%}
+{% endembed %}

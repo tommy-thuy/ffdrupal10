@@ -1,0 +1,19 @@
+uuid: 81c06036-0d6d-489d-8ea4-8a3020235099
+langcode: en
+status: true
+dependencies: {  }
+id: stg
+label: STG
+description: ''
+weight: 0
+stackable: false
+storage: folder
+folder: ./config/stg_split
+module:
+  devel: 0
+  devel_generate: 0
+theme: {  }
+complete_list:
+  - devel.settings
+  - devel.toolbar.settings
+partial_list: {  }

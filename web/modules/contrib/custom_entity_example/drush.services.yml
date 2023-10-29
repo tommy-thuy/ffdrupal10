@@ -1,0 +1,7 @@
+services:
+  custom_entity_example.commands:
+    class: \Drupal\custom_entity_example\Commands\CustomEntityExampleCommands
+    arguments:
+      - '@custom_entity_example.utils'
+    tags:
+      - { name: drush.command }

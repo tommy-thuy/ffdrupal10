@@ -1,0 +1,13 @@
+name: Custom Entity Example
+type: module
+description: 'Defines the CustomEntityExample entity and associated features.'
+package: Custom Entity Modules
+core_version_requirement: ^9.3 || ^10
+configure: entity.custom_entity_example.collection
+dependencies:
+  - entity:entity
+
+# Information added by Drupal.org packaging script on 2023-09-20
+version: '1.0.0'
+project: 'custom_entity_example'
+datestamp: 1695179399

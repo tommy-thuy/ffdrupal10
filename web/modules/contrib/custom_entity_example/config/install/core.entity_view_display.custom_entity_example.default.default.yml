@@ -1,0 +1,25 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.custom_entity_example.default.field_body
+    - custom_entity_example.custom_entity_example_type.default
+  module:
+    - text
+id: custom_entity_example.default.default
+targetEntityType: custom_entity_example
+bundle: default
+mode: default
+content:
+  field_body:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  created: true
+  langcode: true
+  name: true
+  uid: true

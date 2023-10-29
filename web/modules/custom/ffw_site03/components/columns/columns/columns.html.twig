@@ -1,0 +1,17 @@
+{% import "@component_schema/_helpers.html.twig" as helpers %}
+{% set component_type = 'bulma_columns' %}
+{% set errors = process_component() %}
+{{- helpers.errors(errors) -}}
+<div{{attributes }}>
+  {% block columns %}
+  {% for column in columns %}
+  {% set column_attributes = prepend_class(column.attributes, 'column') %}
+  <div{{ column_attributes }}>
+    {{ column.content }}
+    {% for template in column.templates %}
+      {{ template|raw }}
+    {% endfor %}
+  </div>
+  {% endfor %}
+  {% endblock columns %}
+</div>

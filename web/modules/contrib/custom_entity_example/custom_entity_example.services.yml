@@ -1,0 +1,3 @@
+services:
+  custom_entity_example.utils:
+    class: Drupal\custom_entity_example\Service\Utils

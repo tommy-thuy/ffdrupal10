@@ -1,0 +1,17 @@
+{
+    "name": "drupal/lupus_ce_renderer",
+    "description": "Renders main content using custom elements.",
+    "type": "drupal-module",
+    "license": "GPL-2.0-or-later",
+    "keywords": [
+        "Drupal",
+        "Decoupled"
+    ],
+    "homepage": "https://www.drupal.org/project/lupus_ce_renderer",
+    "require": {
+        "drunomics/service-utils": "*",
+        "drupal/custom_elements": "^2.0 || 3.x-dev",
+        "drupal/metatag": "^1.0",
+        "drupal/core": "^9 || ^10"
+    }
+}

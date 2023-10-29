@@ -1,0 +1,6 @@
+name: 'FFW Site-specific features/Site 1'
+type: module
+description: 'Site 1 extends the body copy component by introducing a title field. (h2)'
+core_version_requirement: ^8.8 || ^9 || ^10
+package: 'FFW'
+dependencies: {}

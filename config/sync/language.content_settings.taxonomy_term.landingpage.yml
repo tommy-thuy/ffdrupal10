@@ -1,0 +1,11 @@
+uuid: e4503ba2-50b9-413a-8524-50e930afb898
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.landingpage
+id: taxonomy_term.landingpage
+target_entity_type_id: taxonomy_term
+target_bundle: landingpage
+default_langcode: site_default
+language_alterable: false

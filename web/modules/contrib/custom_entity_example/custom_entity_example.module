@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file
+ * Defines the CustomEntityExample entity and associated features.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element;
+
+/**
+ * Implements hook_theme().
+ */
+function custom_entity_example_theme() {
+  return [
+    'custom_entity_example' => [
+      'render element' => 'elements',
+    ],
+    'custom_entity_example_form' => [
+      'render element' => 'form',
+    ],
+  ];
+}
+
+/**
+ * Prepares variables for custom_entity_example templates.
+ *
+ * Default template: custom-entity-example.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An associative array containing rendered fields.
+ *   - attributes: HTML attributes for the containing element.
+ */
+function template_preprocess_custom_entity_example(array &$variables) {
+  /** @var Drupal\custom_entity_example\Entity\CustomEntityExampleInterface $custom_entity_example */
+  $custom_entity_example = $variables['elements']['#custom_entity_example'];
+
+  $variables['custom_entity_example_entity'] = $custom_entity_example;
+  $variables['custom_entity_example_url'] = $custom_entity_example->isNew() ? '' : $custom_entity_example->toUrl();
+  $variables['custom_entity_example'] = [];
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['custom_entity_example'][$key] = $variables['elements'][$key];
+  }
+}

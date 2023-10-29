@@ -1,0 +1,19 @@
+uuid: 5ab9fe42-dc7a-4986-9e54-501f6af8f25e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_teaser
+    - paragraphs.paragraphs_type.call_to_action
+id: paragraph.call_to_action.field_teaser
+field_name: field_teaser
+entity_type: paragraph
+bundle: call_to_action
+label: Teaser
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

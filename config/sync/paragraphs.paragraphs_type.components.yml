@@ -1,0 +1,10 @@
+uuid: cc4645ae-7d10-4065-a6bd-095bbeacc1de
+langcode: en
+status: true
+dependencies: {  }
+id: components
+label: Components
+icon_uuid: null
+icon_default: null
+description: 'Components: paragraphs reference'
+behavior_plugins: {  }

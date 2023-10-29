@@ -1,0 +1,56 @@
+uuid: 2b28df12-a9d8-4a43-bd55-f04e70418bd8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.components.field_body
+    - field.field.paragraph.components.field_call_to_action
+    - field.field.paragraph.components.field_image
+    - image.style.thumbnail
+    - paragraphs.paragraphs_type.components
+  module:
+    - image
+    - paragraphs
+    - text
+id: paragraph.components.default
+targetEntityType: paragraph
+bundle: components
+mode: default
+content:
+  field_body:
+    type: text_textarea
+    weight: 0
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_call_to_action:
+    type: paragraphs
+    weight: 1
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+  field_image:
+    type: image_image
+    weight: 2
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

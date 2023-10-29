@@ -1,0 +1,7 @@
+datalayer-custom-tag:
+  version: VERSION
+  js:
+    js/datalayer-custom-tag.js: {weight: -1}
+  dependencies:
+    - core/jquery
+    - core/jquery.once

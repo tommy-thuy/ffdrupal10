@@ -1,0 +1,34 @@
+uuid: cdab084f-cfeb-4583-bfd4-9bfcbac1d821
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_components
+    - node.type.landingpage
+    - paragraphs.paragraphs_type.components
+  module:
+    - entity_reference_revisions
+id: node.landingpage.field_components
+field_name: field_components
+entity_type: node
+bundle: landingpage
+label: 'Components: paragraphs reference'
+description: 'Components: paragraphs reference'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      components: components
+    negate: 0
+    target_bundles_drag_drop:
+      call_to_action:
+        weight: 3
+        enabled: false
+      components:
+        weight: 4
+        enabled: true
+field_type: entity_reference_revisions

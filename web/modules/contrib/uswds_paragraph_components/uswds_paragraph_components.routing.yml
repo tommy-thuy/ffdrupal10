@@ -1,0 +1,7 @@
+uswds_paragraph_components.settings:
+  path: '/admin/config/content/uswds_paragraph_components'
+  defaults:
+    _form: '\Drupal\uswds_paragraph_components\Form\SettingsForm'
+    _title: 'USWDS Paragraph Components settings'
+  requirements:
+    _permission: 'administer paragraphs settings'

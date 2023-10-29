@@ -1,0 +1,14 @@
+name: Gin Layout Builder
+description: Layout Builder in Gin style
+type: module
+package: User interface
+core_version_requirement: ^9.3 || ^10
+configure: gin_lb.gin_lb_settings_form
+dependencies:
+  - drupal:layout_builder
+  - gin_toolbar:gin_toolbar
+
+# Information added by Drupal.org packaging script on 2023-10-10
+version: '1.0.0-rc5'
+project: 'gin_lb'
+datestamp: 1696943064

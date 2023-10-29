@@ -1,0 +1,15 @@
+{% set columns = [] %}
+{% if column_one is not empty %}
+  {% set columns = columns|merge([column_one]) %}
+{% endif %}
+{%
+  set column_set = {
+    attributes: attributes,
+    is_multiline: is_multiline,
+    is_centered: is_centered,
+    is_vcentered: is_vcentered,
+    is_mobile: is_mobile,
+    columns: columns,
+  }
+%}
+{{ include('@bulma_components/columns/columns/columns.html.twig', column_set) }}

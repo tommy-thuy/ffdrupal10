@@ -1,0 +1,16 @@
+attributes:
+  type: bulma_attributes
+is_multiline:
+  type: bulma_columns_is_multiline
+is_centered:
+  type: bulma_columns_is_centered
+is_vcentered:
+    type: bulma_columns_is_vcentered
+is_mobile:
+  type: bulma_columns_is_mobile
+columns:
+  label: 'Columns'
+  description: 'A set of columns'
+  type: sequence
+  sequence:
+    type: bulma_column

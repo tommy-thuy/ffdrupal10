@@ -1,0 +1,77 @@
+<?php
+
+use Drupal\paragraphs\Entity\Paragraph; 
+
+/**
+ * Implements hook_theme().
+ *
+ * Call the base hook from Paragraphs to allow preprocess hooks to work.
+ */
+function paragraphs_types_theme() {
+  return array(
+    'paragraph__image_featured_text' => array(
+      'render element' => 'element',
+      'template' => 'paragraph--image-featured-text',
+      'base hook' => 'paragraph',
+    ),
+  );
+
+}
+
+
+/**
+ * Implements hook_preprocess_HOOK() for paragraph--image-featured-text.html.twig.
+ *
+ * Convert field render array to single value variable.
+ */
+function ffw_site01_preprocess_paragraph__techx_view(&$variables) {
+  $paragraph = $variables['paragraph'];
+  $view_id = 'techx';
+  $view = \Drupal\views\Views::getView($view_id);
+  if($paragraph->get('field_show_teaser')->value == '1'){
+      $view_display = 'block_1';
+      $view->setDisplay($view_display);
+      $output = $view->render();
+      $variables['view_block'] = $output;
+  }else {
+      $view_display = 'block_2';
+      $view->setDisplay($view_display);
+      $output = $view->render();
+      $variables['view_block'] = $output;
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for paragraph--image-featured-text.html.twig.
+ *
+ * Convert field render array to single value variable.
+ */
+function paragraphs_types_preprocess_paragraph__image_featured_text(&$variables) {
+  var_dump($variables);
+  // field is required, so no empty check needed
+  /** @var Paragraph $paragraph */
+  $paragraph = $variables['paragraph'];
+  $variables['field_body'] = $paragraph->get('field_image_text_layout')->value;
+}
+function ffw_site01_create_paragraph($nid, $content, $fid = FALSE) {
+  
+  $node = entity_load('node', $nid);
+  var_dump($node);
+  $paragraph = Paragraph::create(['type' => 'text',]);
+  $paragraph->set('TEXT_FIELD_NAME', $content); 
+  if ($fid) {
+    $file = file_load($fid);
+    $paragraph->set('IMAGE_FIELD_NAME', $file);
+  }
+  $paragraph->isNew();
+  $paragraph->save();	
+    
+  // Grab any existing paragraphs from the node, and add this one 
+  $current = $node->get('field_components')->getValue();
+  $current[] = array(
+      'target_id' => $paragraph->id(),
+      'target_revision_id' => $paragraph->getRevisionId(),
+    );
+  $node->set('field_components', $current);
+  $node->save();
+}

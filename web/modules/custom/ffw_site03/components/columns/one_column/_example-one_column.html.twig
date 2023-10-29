@@ -1,0 +1,12 @@
+{%
+  set columns = {
+    is_centered: true,
+    column_one: {
+      size: 'is-one-quarter',
+      is_rounded: true,
+      background_color: 'has-background-danger',
+      content: 'My column content',
+    },
+  }
+%}
+{{ include('@bulma_components/columns/one_column/one_column.html.twig', columns) }}

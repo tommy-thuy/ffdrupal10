@@ -1,0 +1,22 @@
+{#
+/**
+ * @file
+ * Template for the custom_entity_example add/edit form.
+ *
+ * Available variables:
+ * - form: The form.
+ *
+ * @ingroup themeable
+ */
+#}
+<div class="layout-custom-entity-example-form clearfix">
+  <div class="layout-region layout-region-custom-entity-example-main">
+    {{ form|without('advanced', 'actions') }}
+  </div>
+  <div class="layout-region layout-region-custom-entity-example-secondary">
+    {{ form.advanced }}
+  </div>
+  <div class="layout-region layout-region-custom-entity-example-footer">
+    {{ form.actions }}
+  </div>
+</div>

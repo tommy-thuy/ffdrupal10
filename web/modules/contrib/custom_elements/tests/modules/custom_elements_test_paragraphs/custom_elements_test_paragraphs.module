@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Contains hook implementations for testing Custom elements module.
+ */
+
+use Drupal\Core\Field\FieldDefinitionInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\Core\Access\AccessResult;
+
+/**
+ * Implements hook_entity_field_access().
+ *
+ * @see \Drupal\Tests\rest\Functional\EntityResource\EntityResourceTestBase::setUp()
+ */
+function custom_elements_test_paragraphs_entity_field_access($operation, FieldDefinitionInterface $field_definition, AccountInterface $account, FieldItemListInterface $items = NULL) {
+  // @see \Drupal\Tests\custom_elements\Functional\CustomElementsRenderMarkupTest::doTestImageParagraph()
+  // @see \Drupal\Tests\custom_elements\Functional\CustomElementsRenderMarkupTest::testNodeRendering()
+  if ($field_definition->getName() === 'field_teaser_text' || $field_definition->getName() === 'field_source') {
+    switch ($operation) {
+      case 'view':
+        // Never ever allow this field to be viewed: this lets
+        // EntityResourceTestBase::testGet() test in a "vanilla" way.
+        return AccessResult::forbidden();
+
+      case 'edit':
+        return AccessResult::forbidden();
+    }
+  }
+
+  // No opinion.
+  return AccessResult::neutral();
+}

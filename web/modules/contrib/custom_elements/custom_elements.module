@@ -1,0 +1,203 @@
+<?php
+
+/**
+ * @file
+ * Custom elements hooks.
+ */
+
+use Drupal\Component\Render\MarkupInterface;
+use Drupal\Core\Render\Markup;
+use Drupal\custom_elements\CustomElement;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Render\BubbleableMetadata;
+use Drupal\Core\Template\Attribute;
+use Drupal\custom_elements\CustomElementsEntityViewDisplay;
+use Drupal\custom_elements\CustomElementsLayoutBuilderEntityViewDisplay;
+
+/**
+ * Implements hook_theme().
+ */
+function custom_elements_theme() {
+  return [
+    'custom_element' => [
+      'variables' => ['custom_element' => NULL],
+    ],
+  ];
+}
+
+/**
+ * Prepares variables when an entity is rendered as custom element.
+ *
+ * Default template: custom-element.twig.html.
+ */
+function template_preprocess_custom_element(&$variables) {
+  // Attach custom-elements libraries.
+  $variables['#attached']['library'][] = 'custom_elements/main';
+
+  // Generate variables for easier usage in the template.
+  /** @var \Drupal\custom_elements\CustomElement $custom_element */
+  $custom_element = $variables['custom_element'];
+  $markup_style = \Drupal::config('custom_elements.settings')->get('markup_style');
+  $variables['attributes'] = new Attribute();
+  foreach ($custom_element->getAttributes() as $key => $value) {
+    // Take care of struct values and json-encode them as necessary.
+    if (is_array($value)) {
+      $value = json_encode($value);
+      // For vue mark-up style let vue evaluate the json to an object.
+      // See https://vuejs.org/v2/guide/components-props.html#Passing-an-Object
+      if ($markup_style == 'vue-3') {
+        $key = ":$key";
+      }
+    }
+    // Attributes with html markup get html stripped, so we convert to string.
+    if ($value instanceof MarkupInterface) {
+      $value = (string) $value;
+    }
+    $variables['attributes'][$key] = $value;
+  }
+  $variables['tag_prefix'] = $custom_element->getTagPrefix() ? $custom_element->getTagPrefix() . '-' : '';
+  $variables['tag'] = $custom_element->getTag();
+
+  if ($markup_style == 'vue-3') {
+    $variables['slots'] = custom_elements_prepare_slots_as_vue_3($custom_element);
+  }
+  else {
+    $variables['slots'] = custom_elements_prepare_slots_as_web_component($custom_element);
+  }
+
+  BubbleableMetadata::createFromObject($custom_element)
+    ->applyTo($variables);
+}
+
+/**
+ * Prepares custom elements slots for rendering.
+ *
+ * @param \Drupal\custom_elements\CustomElement $custom_element
+ *   The custom element.
+ *
+ * @return array
+ *   A list of renderable slots to be passed to the template.
+ */
+function custom_elements_prepare_slots_as_web_component(CustomElement $custom_element) {
+  $slots = [];
+  $slot_entries = $custom_element->getSortedSlots();
+  foreach ($slot_entries as $slot_entry) {
+    if ($slot_entry['content'] instanceof CustomElement) {
+      $element = $slot_entry['content'];
+      $element->setAttribute('slot', $slot_entry['key']);
+      $slots[] = $element->toRenderArray();
+    }
+    elseif ($slot_entry['key'] == 'default' && count($slot_entries) == 1) {
+      // No need for a wrapping div if there is only one default slot entry.
+      $slots[] = [
+        '#type' => 'markup',
+        '#markup' => $slot_entry['content'],
+      ];
+    }
+    else {
+      $slots[] = [
+        '#prefix' => '<div slot=' . $slot_entry['key'] . '>',
+        '#type' => 'markup',
+        '#markup' => $slot_entry['content'],
+        '#suffix' => '</div>',
+      ];
+    }
+  }
+  return $slots;
+}
+
+/**
+ * Prepares custom elements slots for rendering in vue style.
+ *
+ * @param \Drupal\custom_elements\CustomElement $custom_element
+ *   The custom element.
+ *
+ * @return array
+ *   A list of renderable slots to be passed to the template.
+ */
+function custom_elements_prepare_slots_as_vue_3(CustomElement $custom_element) {
+  $slots = [];
+  $slots_by_name = $custom_element->getSortedSlotsByName();
+  // If there is only the default slot, skip the wrapping template tag.
+  $skip_wrapper = count($slots_by_name) == 1 && isset($slots_by_name['default']);
+
+  foreach ($slots_by_name as $key => $slot_entries) {
+    $render = [];
+    if (!$skip_wrapper) {
+      $render['#prefix'] = Markup::create('<template #' . $key . '>' . "\n");
+      $render['#suffix'] = Markup::create('</template>' . "\n");
+    }
+    foreach ($slot_entries as $slot_entry) {
+      if ($slot_entry['content'] instanceof CustomElement) {
+        $element = $slot_entry['content'];
+        $render[] = $element->toRenderArray();
+      }
+      else {
+        $render[] = [
+          '#markup' => $slot_entry['content'],
+        ];
+      }
+    }
+    $slots[$key] = $render;
+  }
+  return $slots;
+}
+
+/**
+ * Implements hook_entity_type_alter().
+ *
+ * @see custom_elements_module_implements_alter()
+ */
+function custom_elements_entity_type_alter(array &$entity_types) {
+  // Use the right class depending on layout builder being used.
+  $class = \Drupal::moduleHandler()->moduleExists('layout_builder') ? CustomElementsLayoutBuilderEntityViewDisplay::class : CustomElementsEntityViewDisplay::class;
+  /** @var \Drupal\Core\Entity\EntityTypeInterface[] $entity_types */
+  $entity_types['entity_view_display']
+    ->setClass($class);
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function custom_elements_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'entity_type_alter') {
+    // Make sure this runs after layout builder.
+    // Move custom_elements_entity_type_alter() to the end of the list.
+    // \Drupal::moduleHandler()->getImplementations()
+    // iterates through $implementations with a foreach loop which PHP iterates
+    // in the order that the items were added, so to move an item to the end of
+    // the array, we remove it and then add it.
+    $group = $implementations['custom_elements'];
+    unset($implementations['custom_elements']);
+    $implementations['custom_elements'] = $group;
+  }
+  // Be sure our entity_view_alter hook comes last, even after layout builder
+  // which also tries to make it come last.
+  // @see custom_elements_install().
+  if ($hook === 'entity_view_alter') {
+    $group = $implementations['custom_elements'];
+    unset($implementations['custom_elements']);
+    $implementations['custom_elements'] = $group;
+  }
+}
+
+/**
+ * Implements hook_entity_view_display_alter().
+ */
+function custom_elements_entity_view_display_alter(EntityViewDisplayInterface $display, array $context) {
+  // Enable for all view-modes named appropriately by default.
+  if (strpos($context['view_mode'], 'custom_elements') === 0) {
+    $display->setThirdPartySetting('custom_elements', 'enabled', 1);
+  }
+}
+
+/**
+ * Implements hook_entity_view_alter().
+ */
+function custom_elements_entity_view_alter(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display) {
+  // Alter the build array to apply custom elements rendering.
+  if (!empty($build['#custom_elements_enabled'])) {
+    $build['#theme'] = 'custom_element';
+  }
+}

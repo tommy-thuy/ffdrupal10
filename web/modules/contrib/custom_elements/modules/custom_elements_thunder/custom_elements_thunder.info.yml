@@ -1,0 +1,13 @@
+name: Custom Elements Thunder Integration
+description: Provides custom elements markup for thunder paragraphs.
+package: Thunder
+type: module
+core_version_requirement: ^8.8 || ^9 || ^10
+dependencies:
+  - custom_elements:custom_elements
+  - video_embed_field:video_embed_field
+
+# Information added by Drupal.org packaging script on 2023-03-14
+version: '8.x-2.4'
+project: 'custom_elements'
+datestamp: 1678811320

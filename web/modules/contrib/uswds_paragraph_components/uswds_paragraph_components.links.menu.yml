@@ -1,0 +1,5 @@
+uswds_paragraph_components.settings:
+  title: 'USWDS Paragraph Component settings'
+  description: 'Form used to reset USWDS Paragraph bundles to module config'
+  parent: system.admin_config_content
+  route_name: uswds_paragraph_components.settings

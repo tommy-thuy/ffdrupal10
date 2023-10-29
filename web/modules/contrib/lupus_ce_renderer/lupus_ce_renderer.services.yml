@@ -1,0 +1,45 @@
+services:
+  lupus_ce_renderer.custom_elements_renderer:
+    class: Drupal\lupus_ce_renderer\CustomElementsRenderer
+    arguments: ['@title_resolver', '@renderer', '%renderer.config%', '@module_handler', '@messenger', '@plugin.manager.block', '@settings', '@metatag.manager', '@page_cache_kill_switch', '@custom_elements.generator']
+  lupus_ce_renderer.ce_metatags_generator:
+    class: Drupal\lupus_ce_renderer\CustomElementsMetatagsGenerator
+    arguments: [ '@module_handler', '@metatag.manager', '@path.matcher', '@settings', '@language_manager' ]
+  lupus_ce_renderer.custom_elements_view_subscriber:
+    class: Drupal\lupus_ce_renderer\EventSubscriber\CustomElementsViewSubscriber
+    arguments: ['@lupus_ce_renderer.custom_elements_renderer']
+    tags:
+      - { name: event_subscriber }
+  lupus_ce_renderer.custom_elements_controller_subscriber:
+    class: Drupal\lupus_ce_renderer\EventSubscriber\CustomElementsControllerSubscriber
+    arguments: ['@controller_resolver']
+    tags:
+      - { name: event_subscriber }
+  lupus_ce_renderer.custom_elements_event_subscriber:
+    class: Drupal\lupus_ce_renderer\EventSubscriber\CustomElementsFormatSubscriber
+    tags:
+      - { name: event_subscriber }
+  lupus_ce_renderer.custom_elements_http_exception_subscriber:
+    class: Drupal\lupus_ce_renderer\EventSubscriber\CustomElementsHttpExceptionSubscriber
+    tags:
+      - { name: event_subscriber }
+    parent: exception.custom_page_html
+  lupus_ce_renderer.custom_elements_route_subscriber:
+    class: Drupal\lupus_ce_renderer\EventSubscriber\CustomElementsRouteSubscriber
+    tags:
+      - { name: event_subscriber }
+  lupus_ce_renderer.custom_elements_redirect_response_subscriber:
+    class: Drupal\lupus_ce_renderer\EventSubscriber\CustomElementsRedirectResponseSubscriber
+    arguments: ['@module_handler']
+    tags:
+      - { name: event_subscriber }
+  lupus_ce_renderer.custom_elements_dynamic_response_subscriber:
+    class: Drupal\lupus_ce_renderer\EventSubscriber\CustomElementsDynamicResponseSubscriber
+    arguments: ['@lupus_ce_renderer.custom_elements_renderer']
+    tags:
+      - { name: event_subscriber }
+  lupus_ce_renderer.request_subscriber:
+    class: Drupal\lupus_ce_renderer\EventSubscriber\CustomElementsRequestSubscriber
+    arguments: ['@router.route_provider']
+    tags:
+      - { name: event_subscriber }
