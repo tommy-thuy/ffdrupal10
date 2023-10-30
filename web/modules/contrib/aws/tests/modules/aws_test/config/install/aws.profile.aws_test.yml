@@ -1,0 +1,7 @@
+id: aws_test
+name: AWS Test
+default: 1
+aws_access_key_id: TestAccessKey
+aws_secret_access_key: TestSecretKey
+region: us-east-1
+encryption_profile: _none

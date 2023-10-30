@@ -1,0 +1,5 @@
+entity.seo_url.add_form:
+  route_name: entity.seo_url.add_form
+  title: 'Add SEO URL'
+  appears_on:
+    - entity.seo_url.collection

@@ -1,0 +1,25 @@
+administer seo_url entities:
+  title: 'Administer SEO URL entity type'
+  description: 'Allow to access the administration form to configure SEO URL entities.'
+  restrict access: true
+
+add seo_url entities:
+  title: 'Create new SEO URL entities'
+
+update seo_url entities:
+  title: 'Edit any SEO URL entities'
+
+update own seo_url entities:
+  title: 'Edit own SEO URL entities'
+
+view seo_url entities:
+  title: 'View any SEO URL entities'
+
+view own seo_url entities:
+  title: 'View own SEO URL entities'
+
+delete seo_url entities:
+  title: 'Delete any SEO URL entities'
+
+delete own seo_url entities:
+  title: 'Delete own SEO URL entities'

@@ -1,0 +1,13 @@
+name: S3FS File Proxy to S3
+core_version_requirement: ^9.3 || ^10
+description: Download your production files from your prod bucket and then upload to your staging bucket.
+type: module
+package: Development
+dependencies:
+  - s3fs:s3fs
+  - stage_file_proxy:stage_file_proxy
+
+# Information added by Drupal.org packaging script on 2023-03-13
+version: '4.0.1'
+project: 's3fs_file_proxy_to_s3'
+datestamp: 1678729377

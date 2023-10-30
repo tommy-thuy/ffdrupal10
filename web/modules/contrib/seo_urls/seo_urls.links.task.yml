@@ -1,0 +1,26 @@
+# SEO URL routing definition
+seo_url.settings_tab:
+  route_name: seo_url.settings
+  base_route: seo_url.settings
+  title: 'Settings'
+
+entity.seo_url.canonical:
+  route_name: entity.seo_url.canonical
+  base_route: entity.seo_url.canonical
+  title: 'View'
+
+entity.seo_url.edit_form:
+  route_name: entity.seo_url.edit_form
+  base_route: entity.seo_url.canonical
+  title: 'Edit'
+
+entity.seo_url.delete_form:
+  route_name:  entity.seo_url.delete_form
+  base_route:  entity.seo_url.canonical
+  title: 'Delete'
+  weight: 10
+
+entity.seo_url.collection:
+  route_name: entity.seo_url.collection
+  base_route: system.admin_content
+  title: 'SEO URLs'

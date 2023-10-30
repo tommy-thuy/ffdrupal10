@@ -1,0 +1,14 @@
+services:
+  seo_urls.path_processor:
+    class: Drupal\seo_urls\PathProcessor\SeoUrlPathProcessor
+    tags:
+      - { name: path_processor_inbound, priority: 200 }
+      - { name: path_processor_outbound, priority: 400 }
+    arguments: [ '@service_container' ]
+  seo_urls.subscriber:
+    class: Drupal\seo_urls\EventSubscriber\SeoUrlRouteSubscriber
+    tags:
+      - { name: event_subscriber }
+  seo_urls.manager:
+    class: Drupal\seo_urls\SeoUrlManager
+    arguments: [ '@entity_type.manager', '@path_alias.manager', '@language_manager', '@config.factory', '@event_dispatcher']

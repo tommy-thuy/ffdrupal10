@@ -1,0 +1,7 @@
+# Segment Set A/B menu items definition
+entity.smart_content_a_b.collection:
+  title: 'Manage A/B Tests'
+  route_name: entity.smart_content_a_b.collection
+  description: 'List Segment Set A/B (bundles)'
+  parent: smart_content.overview
+  weight: 99

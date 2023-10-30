@@ -1,0 +1,14 @@
+name: 'SEO Urls'
+description: 'Provides SEO Urls instead of the canonical one with parameters.'
+type: module
+dependencies:
+  - drupal:link
+  - metatag:metatag
+package: SEO
+php: 7.4
+core_version_requirement: ^9.5 || ^10
+
+# Information added by Drupal.org packaging script on 2023-04-02
+version: '1.0.3'
+project: 'seo_urls'
+datestamp: 1680417738

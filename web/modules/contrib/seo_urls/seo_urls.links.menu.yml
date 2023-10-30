@@ -1,0 +1,27 @@
+# Extra link to create SEO URL from the current page.
+system.create_seo_url:
+  title: 'Create SEO URL'
+  parent: system.admin
+  route_name: 'seo_url.create'
+  weight: 10
+
+# SEO URL entity menu items definition
+seo_url.admin.structure.settings:
+  title: 'SEO URL'
+  description: 'Configure SEO URL entity type'
+  route_name: seo_url.settings
+  parent: system.admin_structure
+  weight: 100
+
+entity.seo_url.collection:
+  title: 'SEO URLs'
+  description: 'List of SEO URLs'
+  route_name: entity.seo_url.collection
+  parent: system.admin_content
+  weight: 100
+
+entity.seo_url.add_form:
+  title: 'SEO URL add'
+  description: 'Add a new SEO URL'
+  route_name: entity.seo_url.add_form
+  parent: entity.seo_url.collection

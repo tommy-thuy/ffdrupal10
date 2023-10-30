@@ -5,3 +5,5 @@ datalayer-custom-frontend:
   dependencies:
     - core/jquery
     - core/jquery.once
+    - core/drupalSettings
+    - core/drupal

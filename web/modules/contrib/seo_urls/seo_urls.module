@@ -1,0 +1,140 @@
+<?php
+
+/**
+ * @file
+ * Main module file.
+ */
+
+use Drupal\Core\Render\BubbleableMetadata;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\seo_urls\MenuLinkDestination;
+
+/**
+ * Implements hook_help().
+ */
+function seo_urls_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the seo_urls module.
+    case 'help.page.seo_urls':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Provides SEO Urls instead of the canonical one with parameters.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_token_info().
+ */
+function seo_urls_token_info() : array {
+  $info = [];
+
+  /** @var \Drupal\seo_urls\SeoUrlManagerInterface $seo_url_manager */
+  $seo_url_manager = \Drupal::service('seo_urls.manager');
+  foreach ($seo_url_manager->getAllowedEntityTypes() as $entity_type) {
+    $info['tokens'][$entity_type]['seo_url'] = [
+      'name' => t('SEO URL'),
+      'description' => t('The SEO URL of the @entity_type.', ['@entity_type' => $entity_type]),
+      'needs-data' => $entity_type,
+    ];
+  }
+
+  return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function seo_urls_tokens($type, $tokens, array $data, array $options, BubbleableMetadata $bubbleable_metadata) {
+  $url_options = ['absolute' => TRUE];
+  $replacements = [];
+
+  /** @var \Drupal\seo_urls\SeoUrlManagerInterface $seo_url_manager */
+  $seo_url_manager = \Drupal::service('seo_urls.manager');
+  $allowed_entity_types = $seo_url_manager->getAllowedEntityTypes();
+
+  if (in_array($type, $allowed_entity_types) && !empty($data[$type])) {
+    /** @var \Drupal\Core\Entity\ContentEntityInterface $entity */
+    $entity = $data[$type];
+
+    foreach ($tokens as $name => $original) {
+      if ($name != 'seo_url') {
+        continue;
+      }
+
+      // Get current path.
+      /** @var \Symfony\Component\HttpFoundation\Request $request */
+      $request = Drupal::service('request_stack')->getCurrentRequest();
+      /** @var \Drupal\seo_urls\SeoUrlManager $seo_url_manager */
+      $seo_url_manager = \Drupal::service('seo_urls.manager');
+      if ($seo_url_manager->isSeoUrl($request->getPathInfo())) {
+        // Get current path if it's a SEO Url.
+        $replacements[$original] = $request->getUri();
+      }
+      elseif ($seo_url_manager->isCanonicalUrl($request->getRequestUri())) {
+        // Get SEO Url path.
+        $replacements[$original] = $seo_url_manager->getSeoUrlByCanonicalUrl($request->getRequestUri(), $request, NULL, TRUE);
+      }
+      else {
+        // Default behaviour in the other case.
+        // @see user.tokens.inc::node_tokens()
+        // @see node.tokens.inc::node_tokens()
+        // @see taxonomy.tokens.inc::node_tokens()
+        if ($entity->id()) {
+          $replacements[$original] = $entity->toUrl('canonical', $url_options)
+            ->toString();
+        }
+      }
+    }
+  }
+
+  return $replacements;
+}
+
+/**
+ * Implements hook_menu_links_discovered_alter().
+ */
+function seo_urls_menu_links_discovered_alter(array &$links): void {
+  if (isset($links['system.create_seo_url'])) {
+    $links['system.create_seo_url']['options']['menu_link_destination'] = TRUE;
+  }
+}
+
+/**
+ * Implements hook_link_alter().
+ */
+function seo_urls_link_alter(array &$variables): void {
+  if (!empty($variables['options']['menu_link_destination'])) {
+    /** @var \Drupal\Core\Url $url */
+    $url = $variables['url'];
+    // Don't override an explicitly configured destination.
+    if (empty($url->getOption('query')['destination'])) {
+      /** @var \Drupal\Core\Routing\RedirectDestinationInterface $redirect_destination */
+      $redirect_destination = \Drupal::service('redirect.destination');
+      $variables['options']['query']['destination'] = $redirect_destination->get();
+    }
+  }
+}
+
+/**
+ * Adds a pre-render callback to the link element.
+ *
+ * There's no way to pass cacheability metadata via hook_link_alter(). This is
+ * a workaround based on https://www.drupal.org/project/drupal/issues/3082473,
+ * comment #4.
+ *
+ * @param array $info
+ *   The link element info.
+ *
+ * @see https://www.drupal.org/project/drupal/issues/3082473
+ */
+function seo_urls_element_info_alter(array &$info): void {
+  if (isset($info['link']['#pre_render'])) {
+    array_unshift($info['link']['#pre_render'], [
+      MenuLinkDestination::class,
+      'preRenderLink',
+    ]);
+  }
+}

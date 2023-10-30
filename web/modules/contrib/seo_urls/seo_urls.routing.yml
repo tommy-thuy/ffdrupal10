@@ -1,0 +1,26 @@
+seo_url.create:
+  path: '/admin/seo_url/add'
+  defaults:
+    _controller: '\Drupal\seo_urls\Controller\SeoUrlCreateController::addForm'
+    _title: 'Add SEO URL item'
+  requirements:
+    _entity_create_access: 'seo_url:seo_url'
+    _custom_access: '\Drupal\seo_urls\Controller\SeoUrlCreateController::access'
+
+seo_url.settings:
+  path: '/admin/structure/seo_url'
+  defaults:
+    _form: '\Drupal\seo_urls\Form\SeoUrlSettingsForm'
+    _title: 'SEO URL'
+  options:
+    _admin_route: TRUE
+  requirements:
+    _permission: 'administer seo_url entities'
+
+entity.seo_url.collection:
+  path: '/admin/content/seo_url'
+  defaults:
+    _entity_list: 'seo_url'
+    _title: 'SEO URL'
+  requirements:
+    _permission: 'view seo_url entities+view own seo_url entities'
